@@ -1,0 +1,48 @@
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+  <script type="text/javascript" src="underscore.js"></script>
+</head>
+<body>
+  <div id="container">
+    <div id='userinfo'>
+      <div id='avatar'></div>
+      <div id='name'></div>
+    </div>
+    <div class="repo">
+      <h2 class="repoName">Nicolas best repo</h2>
+      <div class="Stars">5 Starred</div>
+      <div class="Watchers">15 Watchers</div>
+      <div class="Forks">24</div>
+    </div>
+
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      $.ajax({
+        url: 'http://api.github.com/users/aitkenster/repos',
+        dataType: 'json'
+      })
+      .done(function (data) {
+        var sortedRepos = transform(data);
+        _.each(sortedRepos, function (repo) {
+          $('#container').append(
+            '<div class="repo">' +
+              '<h2 class="repoName">' + repo.name + '</h2>' +
+              '<div class="Stars">' + repo.stargazers_count + 'Starred</div>' +
+              '<div class="Watchers">' + repo.watchers_count + 'Watchers</div>' +
+              '<div class="Forks">' + repo.forks_count + 'Forks </div>' +
+            '</div>'
+           )
+        });
+      })
+      .fail(function () {
+        console.log("There has been an error")
+      })
+    })
+  </script>
+</body>
+</html>
